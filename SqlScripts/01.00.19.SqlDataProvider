@@ -1,0 +1,167 @@
+﻿
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Get_OwnerByReservationID]    Script Date: 01/04/2016 06:03:13 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Get_OwnerByReservationID]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_Rentals_Get_OwnerByReservationID]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Get_TenantByReservationID]    Script Date: 01/04/2016 06:03:13 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Get_TenantByReservationID]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_Rentals_Get_TenantByReservationID]
+GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Get_OwnerByReservationID]    Script Date: 01/04/2016 06:03:13 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[GIBS_Rentals_Get_OwnerByReservationID]
+	-- Add the parameters for the stored procedure here
+	@ReservationID int
+	
+	
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+
+
+
+DECLARE @UserID int
+
+Set @UserID = (SELECT        Ventrian_PropertyAgent_Property.AuthorID
+FROM            GIBS_Rentals_Reservations INNER JOIN
+                         Ventrian_PropertyAgent_Property ON GIBS_Rentals_Reservations.PropertyID = Ventrian_PropertyAgent_Property.PropertyID
+WHERE        (GIBS_Rentals_Reservations.ReservationID = @ReservationID))
+
+
+
+	SET NOCOUNT ON;
+
+	Declare @PortalId int;
+
+Set @PortalId = 0
+
+SELECT    
+			
+				
+         'OwnerFirstName' = U.FirstName,
+         'OwnerLastName' = U.LastName,
+          'OwnerEmail' = U.Email	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Telephone' AND PortalID = @PortalID)) AS OwnerTelephone
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Cell' AND PortalID = @PortalID)) AS OwnerCell	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Street' AND PortalID = @PortalID)) AS OwnerAddress	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'City' AND PortalID = @PortalID)) AS OwnerCity	
+          , 
+		  CASE 
+                     WHEN ISNUMERIC((SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Region' AND PortalID = @PortalID))) = 1 
+					 THEN (SELECT   [Value] FROM Lists where EntryID = (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Region' AND PortalID = @PortalID)) )
+                     ELSE (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Region' AND PortalID = @PortalID)) 
+                   END AS OwnerState 
+
+		  
+		  
+		 -- (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Region' AND PortalID = @PortalID)) AS OwnerState
+		  
+		  	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'PostalCode' AND PortalID = @PortalID)) AS OwnerZip							
+										
+					
+					
+FROM        Users U 
+
+
+
+WHERE 
+U.UserID = @UserID
+
+
+  
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Get_TenantByReservationID]    Script Date: 01/04/2016 06:03:14 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[GIBS_Rentals_Get_TenantByReservationID]
+	-- Add the parameters for the stored procedure here
+	@ReservationID int
+	
+	
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+
+
+
+DECLARE @UserID int
+
+Set @UserID = (SELECT [TenantID]
+  FROM [GIBS_Rentals_Reservations]
+  WHERE [ReservationID] = @ReservationID)
+
+	SET NOCOUNT ON;
+
+		Declare @PortalId int;
+
+Set @PortalId = 0
+
+SELECT    
+			
+				
+         'FirstName' = U.FirstName,
+         'LastName' = U.LastName,
+          'Email' = U.Email	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Telephone' AND PortalID = @PortalID)) AS Telephone
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Cell' AND PortalID = @PortalID)) AS Cell	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Street' AND PortalID = @PortalID)) AS Street	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'City' AND PortalID = @PortalID)) AS City	
+          , 
+		  CASE 
+                     WHEN ISNUMERIC((SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Region' AND PortalID = @PortalID))) = 1 
+					 THEN (SELECT   [Value] FROM Lists where EntryID = (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Region' AND PortalID = @PortalID)) )
+                     ELSE (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Region' AND PortalID = @PortalID)) 
+                   END AS Region 
+
+		  
+		  
+		 -- (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Region' AND PortalID = @PortalID)) AS OwnerState
+		  
+		  	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'PostalCode' AND PortalID = @PortalID)) AS PostalCode							
+										
+					
+					
+FROM        Users U 
+
+
+
+WHERE 
+U.UserID = @UserID
+
+
+
+  
+END
+GO
+
+

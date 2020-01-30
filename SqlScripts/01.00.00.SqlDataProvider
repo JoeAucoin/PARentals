@@ -1,0 +1,751 @@
+﻿
+
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_GIBS_Rentals_Bookings_Modules]') AND parent_object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Bookings]'))
+ALTER TABLE [dbo].[GIBS_Rentals_Bookings] DROP CONSTRAINT [FK_GIBS_Rentals_Bookings_Modules]
+GO
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[DF_GIBS_Rentals_Bookings_Status]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[GIBS_Rentals_Bookings] DROP CONSTRAINT [DF_GIBS_Rentals_Bookings_Status]
+END
+
+GO
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[DF_GIBS_Rentals_Bookings_ReservationID]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[GIBS_Rentals_Bookings] DROP CONSTRAINT [DF_GIBS_Rentals_Bookings_ReservationID]
+END
+
+GO
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[DF_GIBS_Rentals_Bookings_CreatedDate]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[GIBS_Rentals_Bookings] DROP CONSTRAINT [DF_GIBS_Rentals_Bookings_CreatedDate]
+END
+
+GO
+
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_GIBS_Rentals_Reservations_Modules]') AND parent_object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Reservations]'))
+ALTER TABLE [dbo].[GIBS_Rentals_Reservations] DROP CONSTRAINT [FK_GIBS_Rentals_Reservations_Modules]
+GO
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[DF_GIBS_Rentals_Reservations_RentAmount]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[GIBS_Rentals_Reservations] DROP CONSTRAINT [DF_GIBS_Rentals_Reservations_RentAmount]
+END
+
+GO
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[DF_GIBS_Rentals_Reservations_DepositAmt]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[GIBS_Rentals_Reservations] DROP CONSTRAINT [DF_GIBS_Rentals_Reservations_DepositAmt]
+END
+
+GO
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[DF_GIBS_Rentals_Reservations_BalanceAmt]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[GIBS_Rentals_Reservations] DROP CONSTRAINT [DF_GIBS_Rentals_Reservations_BalanceAmt]
+END
+
+GO
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[DF_GIBS_Rentals_Reservations_CreatedDate]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[GIBS_Rentals_Reservations] DROP CONSTRAINT [DF_GIBS_Rentals_Reservations_CreatedDate]
+END
+
+GO
+
+
+
+/****** Object:  Table [dbo].[GIBS_Rentals_Bookings]    Script Date: 12/02/2014 08:13:41 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Bookings]') AND type in (N'U'))
+DROP TABLE [dbo].[GIBS_Rentals_Bookings]
+GO
+
+/****** Object:  Table [dbo].[GIBS_Rentals_Reservations]    Script Date: 12/02/2014 08:13:41 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Reservations]') AND type in (N'U'))
+DROP TABLE [dbo].[GIBS_Rentals_Reservations]
+GO
+
+
+
+
+/****** Object:  Table [dbo].[GIBS_Rentals_Bookings]    Script Date: 12/02/2014 08:15:39 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[GIBS_Rentals_Bookings](
+	[BookingID] [int] IDENTITY(1,1) NOT NULL,
+	[ModuleID] [int] NOT NULL,
+	[PropertyID] [int] NOT NULL,
+	[DateStart] [date] NULL,
+	[DateEnd] [date] NULL,
+	[RentAmount] [money] NULL,
+	[Status] [char](1) NULL,
+	[ReservationID] [int] NULL,
+	[CreatedByUserID] [int] NOT NULL,
+	[CreatedDate] [datetime] NOT NULL,
+	[UpdatedByUserID] [int] NULL,
+	[UpdatedDate] [datetime] NULL,
+ CONSTRAINT [PK_GIBS_Rentals_Bookings] PRIMARY KEY NONCLUSTERED 
+(
+	[BookingID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON, FILLFACTOR = 90) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+
+/****** Object:  Table [dbo].[GIBS_Rentals_Reservations]    Script Date: 12/02/2014 08:15:39 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[GIBS_Rentals_Reservations](
+	[ModuleID] [int] NOT NULL,
+	[ReservationID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
+	[PropertyID] [int] NOT NULL,
+	[DateStart] [date] NULL,
+	[DateEnd] [date] NULL,
+	[RentAmount] [money] NULL,
+	[AgentID] [int] NULL,
+	[DepositAmt] [money] NULL,
+	[DepositPaidDate] [datetime] NULL,
+	[BalanceAmt] [money] NULL,
+	[BalancePaidDate] [datetime] NULL,
+	[Notes] [text] NULL,
+	[CreatedByUserID] [int] NOT NULL,
+	[CreatedDate] [datetime] NOT NULL,
+	[UpdatedByUserID] [int] NULL,
+	[UpdatedDate] [datetime] NULL,
+ CONSTRAINT [PK_GIBS_Rentals_Reservations] PRIMARY KEY NONCLUSTERED 
+(
+	[ReservationID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON, FILLFACTOR = 90) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[GIBS_Rentals_Bookings]  WITH NOCHECK ADD  CONSTRAINT [FK_GIBS_Rentals_Bookings_Modules] FOREIGN KEY([ModuleID])
+REFERENCES [dbo].[Modules] ([ModuleID])
+ON DELETE CASCADE
+NOT FOR REPLICATION 
+GO
+
+ALTER TABLE [dbo].[GIBS_Rentals_Bookings] CHECK CONSTRAINT [FK_GIBS_Rentals_Bookings_Modules]
+GO
+
+ALTER TABLE [dbo].[GIBS_Rentals_Bookings] ADD  CONSTRAINT [DF_GIBS_Rentals_Bookings_Status]  DEFAULT ('A') FOR [Status]
+GO
+
+ALTER TABLE [dbo].[GIBS_Rentals_Bookings] ADD  CONSTRAINT [DF_GIBS_Rentals_Bookings_ReservationID]  DEFAULT ((0)) FOR [ReservationID]
+GO
+
+ALTER TABLE [dbo].[GIBS_Rentals_Bookings] ADD  CONSTRAINT [DF_GIBS_Rentals_Bookings_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+
+ALTER TABLE [dbo].[GIBS_Rentals_Reservations]  WITH NOCHECK ADD  CONSTRAINT [FK_GIBS_Rentals_Reservations_Modules] FOREIGN KEY([ModuleID])
+REFERENCES [dbo].[Modules] ([ModuleID])
+ON DELETE CASCADE
+NOT FOR REPLICATION 
+GO
+
+ALTER TABLE [dbo].[GIBS_Rentals_Reservations] CHECK CONSTRAINT [FK_GIBS_Rentals_Reservations_Modules]
+GO
+
+ALTER TABLE [dbo].[GIBS_Rentals_Reservations] ADD  CONSTRAINT [DF_GIBS_Rentals_Reservations_RentAmount]  DEFAULT ((0)) FOR [RentAmount]
+GO
+
+ALTER TABLE [dbo].[GIBS_Rentals_Reservations] ADD  CONSTRAINT [DF_GIBS_Rentals_Reservations_DepositAmt]  DEFAULT ((0)) FOR [DepositAmt]
+GO
+
+ALTER TABLE [dbo].[GIBS_Rentals_Reservations] ADD  CONSTRAINT [DF_GIBS_Rentals_Reservations_BalanceAmt]  DEFAULT ((0)) FOR [BalanceAmt]
+GO
+
+ALTER TABLE [dbo].[GIBS_Rentals_Reservations] ADD  CONSTRAINT [DF_GIBS_Rentals_Reservations_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+
+
+
+
+
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Booking_CheckStatus]    Script Date: 12/02/2014 08:13:03 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Booking_CheckStatus]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_Rentals_Booking_CheckStatus]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Booking_Insert]    Script Date: 12/02/2014 08:13:03 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Booking_Insert]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_Rentals_Booking_Insert]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Booking_Update_Status]    Script Date: 12/02/2014 08:13:03 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Booking_Update_Status]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_Rentals_Booking_Update_Status]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Get_Property]    Script Date: 12/02/2014 08:13:03 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Get_Property]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_Rentals_Get_Property]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Get_Reservation]    Script Date: 12/02/2014 08:13:03 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Get_Reservation]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_Rentals_Get_Reservation]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_GetActiveList]    Script Date: 12/02/2014 08:13:03 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_GetActiveList]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_Rentals_GetActiveList]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_GetUsersByRoleName]    Script Date: 12/02/2014 08:13:03 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_GetUsersByRoleName]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_Rentals_GetUsersByRoleName]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Reservation_Insert]    Script Date: 12/02/2014 08:13:03 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Reservation_Insert]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_Rentals_Reservation_Insert]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Update_Reservation_Payment]    Script Date: 12/02/2014 08:13:03 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Update_Reservation_Payment]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_Rentals_Update_Reservation_Payment]
+GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Booking_CheckStatus]    Script Date: 12/02/2014 08:13:03 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*** EventsSignupsGetEvent ***/
+
+CREATE PROCEDURE [dbo].[GIBS_Rentals_Booking_CheckStatus]
+ 
+
+    @PropertyID int,
+    @DateStart datetime
+
+
+AS
+BEGIN
+SET NOCOUNT ON;
+
+Select [Status] , GIBS_Rentals_Bookings.BookingID, 
+GIBS_Rentals_Bookings.ReservationID, GIBS_Rentals_Bookings.RentAmount AS RentalAmount
+from dbo.GIBS_Rentals_Bookings 
+
+WHERE DateStart = DATEADD(dd, 0, DATEDIFF(dd, 0, @DateStart)) and PropertyID = @PropertyID
+
+
+
+union all 
+select  'u' AS [Status], 0 AS BookingID, 0 AS ReservationID, 0 AS RentalAmount
+where not exists (Select [Status] from dbo.GIBS_Rentals_Bookings 
+
+WHERE DateStart = DATEADD(dd, 0, DATEDIFF(dd, 0, @DateStart)) and PropertyID = @PropertyID);
+
+END
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Booking_Insert]    Script Date: 12/02/2014 08:13:03 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*** EventsSignupsGetEvent ***/
+
+CREATE PROCEDURE [dbo].[GIBS_Rentals_Booking_Insert]
+ 
+    @ModuleID int,
+    @PropertyID int,
+    @DateStart datetime,
+    @DateEnd datetime,
+    @RentalAmount money, 
+    @Status varchar(1),
+    @CreatedByUserID int
+
+AS
+BEGIN
+SET NOCOUNT ON;
+
+INSERT INTO [GIBS_Rentals_Bookings]
+           ([ModuleID]
+           ,[PropertyID]
+           ,[DateStart]
+           ,[DateEnd]
+           ,[RentAmount]
+           ,[Status]
+           ,[ReservationID]
+           ,[CreatedByUserID]
+           ,[CreatedDate]
+           ,[UpdatedByUserID]
+           ,[UpdatedDate])
+     VALUES
+           (@ModuleID
+           ,@PropertyID
+           ,@DateStart
+           ,@DateEnd
+           ,@RentalAmount
+           ,@Status
+           ,0
+           ,@CreatedByUserID
+           ,GetDate()
+           ,@CreatedByUserID
+           ,GetDate())
+
+
+select SCOPE_IDENTITY()
+
+END
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Booking_Update_Status]    Script Date: 12/02/2014 08:13:03 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*** EventsSignupsGetEvent ***/
+
+CREATE PROCEDURE [dbo].[GIBS_Rentals_Booking_Update_Status]
+ 
+    
+    @BookingID int,
+    @Status varchar(1),
+    @UpdatedByUserID int
+
+AS
+BEGIN
+SET NOCOUNT ON;
+
+UPDATE [GIBS_Rentals_Bookings]
+   SET 
+
+      [Status] = @Status
+
+      ,[UpdatedByUserID] = @UpdatedByUserID
+      ,[UpdatedDate] = GetDate()
+ WHERE BookingID = @BookingID 
+
+
+END
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Get_Property]    Script Date: 12/02/2014 08:13:03 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*** EventsSignupsGetEvent ***/
+
+CREATE PROCEDURE [dbo].[GIBS_Rentals_Get_Property]
+(   
+    @PropertyID int,
+    @CustomAddress int,
+    @CustomCity int,
+    @CustomBedrooms int,
+    @CustomBathrooms int,
+    @RentalAmount int,
+    @PortalID	int
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+
+
+SELECT     Ventrian_PropertyAgent_Property.PropertyID, 
+	Ventrian_PropertyAgent_Property.ModuleID, 
+	PropertyTypeID, 
+	IsFeatured,  
+
+ ViewCount, 
+ Status, 
+ Latitude, 
+ Longitude,
+ 
+ (select CustomValue from Ventrian_PropertyAgent_PropertyValue
+					WHERE Ventrian_PropertyAgent_PropertyValue.PropertyID = Ventrian_PropertyAgent_Property.PropertyID
+					AND CustomFieldID = @CustomAddress)
+					AS [PropertyAddress]
+,
+(select CustomValue from Ventrian_PropertyAgent_PropertyValue
+					WHERE Ventrian_PropertyAgent_PropertyValue.PropertyID = Ventrian_PropertyAgent_Property.PropertyID
+					AND CustomFieldID = @CustomCity)
+					AS PropertyCity
+,										
+(select CustomValue from Ventrian_PropertyAgent_PropertyValue
+					WHERE Ventrian_PropertyAgent_PropertyValue.PropertyID = Ventrian_PropertyAgent_Property.PropertyID
+					AND CustomFieldID = @RentalAmount)
+					AS RentalAmount
+,										
+Bedrooms = cast((select cast(CustomValue as Varchar(10)) from Ventrian_PropertyAgent_PropertyValue
+					WHERE Ventrian_PropertyAgent_PropertyValue.PropertyID = Ventrian_PropertyAgent_Property.PropertyID
+					AND CustomFieldID = @CustomBedrooms)
+					AS 	int)	
+,
+Bathrooms = cast((select cast(CustomValue as Varchar(10)) from Ventrian_PropertyAgent_PropertyValue
+					WHERE Ventrian_PropertyAgent_PropertyValue.PropertyID = Ventrian_PropertyAgent_Property.PropertyID
+					AND CustomFieldID = @CustomBathrooms)
+					AS 	int)			
+,					
+         'OwnerFirstName' = U.FirstName,
+         'OwnerLastName' = U.LastName,
+          'OwnerEmail' = U.Email	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Telephone' AND PortalID = @PortalID)) AS OwnerTelephone
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Cell' AND PortalID = @PortalID)) AS OwnerCell	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Street' AND PortalID = @PortalID)) AS OwnerAddress	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'City' AND PortalID = @PortalID)) AS OwnerCity	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'Region' AND PortalID = @PortalID)) AS OwnerState	
+          , (SELECT PropertyValue FROM UserProfile WHERE UserId = U.UserId AND PropertyDefinitionID = (SELECT PropertyDefinitionID FROM ProfilePropertyDefinition WHERE PropertyName = 'PostalCode' AND PortalID = @PortalID)) AS OwnerZip							
+										
+					
+					
+FROM         Ventrian_PropertyAgent_Property 
+
+
+LEFT OUTER  JOIN
+                      Users U ON Ventrian_PropertyAgent_Property.AuthorID = U.UserID 
+
+
+LEFT JOIN UserPortals AS UP 
+ ON (U.UserId = UP.UserId)
+
+WHERE (Ventrian_PropertyAgent_Property.PropertyID = @PropertyID ) AND
+		( UP.PortalId = @PortalId or @PortalId IS NULL )
+
+Order by Bedrooms
+
+
+END
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Get_Reservation]    Script Date: 12/02/2014 08:13:03 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[GIBS_Rentals_Get_Reservation]
+	-- Add the parameters for the stored procedure here
+	@ReservationID int
+	
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT [ModuleID]
+      ,[ReservationID]
+      ,[TenantID]
+      ,[PropertyID]
+      ,[DateStart]
+      ,[DateEnd]
+      ,[RentAmount] AS RentalAmount
+      ,[AgentID]
+      ,[DepositAmt]
+      ,[DepositPaidDate]
+      ,[BalanceAmt]
+      ,[BalancePaidDate]
+      ,[Notes]
+      ,[CreatedByUserID]
+      ,[CreatedDate]
+      ,[UpdatedByUserID]
+      ,[UpdatedDate]
+  FROM [GIBS_Rentals_Reservations]
+  WHERE [ReservationID] = @ReservationID
+  
+END
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_GetActiveList]    Script Date: 12/02/2014 08:13:03 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*** EventsSignupsGetEvent ***/
+
+CREATE PROCEDURE [dbo].[GIBS_Rentals_GetActiveList]
+(   
+    @ModuleID int,
+    @CustomAddress int,
+    @CustomCity int,
+    @CustomBedrooms int,
+    @CustomBathrooms int,
+    @RentalAmount int
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+
+
+SELECT     Ventrian_PropertyAgent_Property.PropertyID, 
+	Ventrian_PropertyAgent_Property.ModuleID, 
+	PropertyTypeID, 
+	IsFeatured,  
+
+ ViewCount, 
+ Status, 
+ Latitude, 
+ Longitude,
+ 
+ (select CustomValue from Ventrian_PropertyAgent_PropertyValue
+					WHERE Ventrian_PropertyAgent_PropertyValue.PropertyID = Ventrian_PropertyAgent_Property.PropertyID
+					AND CustomFieldID = @CustomAddress)
+					AS [PropertyAddress]
+,
+(select CustomValue from Ventrian_PropertyAgent_PropertyValue
+					WHERE Ventrian_PropertyAgent_PropertyValue.PropertyID = Ventrian_PropertyAgent_Property.PropertyID
+					AND CustomFieldID = @CustomCity)
+					AS PropertyCity
+,										
+(select CustomValue from Ventrian_PropertyAgent_PropertyValue
+					WHERE Ventrian_PropertyAgent_PropertyValue.PropertyID = Ventrian_PropertyAgent_Property.PropertyID
+					AND CustomFieldID = @RentalAmount)
+					AS RentalAmount
+,										
+Bedrooms = cast((select cast(CustomValue as Varchar(10)) from Ventrian_PropertyAgent_PropertyValue
+					WHERE Ventrian_PropertyAgent_PropertyValue.PropertyID = Ventrian_PropertyAgent_Property.PropertyID
+					AND CustomFieldID = @CustomBedrooms)
+					AS 	int)				
+,
+Bathrooms = cast((select cast(CustomValue as Varchar(10)) from Ventrian_PropertyAgent_PropertyValue
+					WHERE Ventrian_PropertyAgent_PropertyValue.PropertyID = Ventrian_PropertyAgent_Property.PropertyID
+					AND CustomFieldID = @CustomBathrooms)
+					AS 	int)					
+					
+FROM         Ventrian_PropertyAgent_Property
+WHERE [Status] = 3 AND ModuleID = @ModuleID 
+Order by Bedrooms
+
+
+END
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_GetUsersByRoleName]    Script Date: 12/02/2014 08:13:03 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[GIBS_Rentals_GetUsersByRoleName]
+	@PortalID	int,
+	@Rolename	nvarchar(50)
+AS
+	SELECT     
+		
+		U.UserID as ItemId, 
+		 U.LastName + ', ' + U.FirstName AS FullName,
+		 U.Email,
+		 up3.PropertyValue AS [Telephone]
+		
+	FROM dbo.UserPortals AS UP 
+			RIGHT OUTER JOIN dbo.UserRoles  UR 
+			INNER JOIN dbo.Roles R ON UR.RoleID = R.RoleID 
+			RIGHT OUTER JOIN dbo.Users AS U ON UR.UserID = U.UserID 
+		ON UP.UserId = U.UserID	
+		
+				LEFT OUTER JOIN
+		(SELECT     up.UserID, up.PropertyValue
+		FROM          UserProfile AS up 
+		
+		INNER JOIN
+							   ProfilePropertyDefinition AS ppd ON up.PropertyDefinitionID = ppd.PropertyDefinitionID 
+							   AND ppd.PropertyName = 'Telephone' AND ppd.PortalID = @PortalID) 
+		AS up3 ON u.UserID = up3.UserID 
+		
+	WHERE ( UP.PortalId = @PortalID OR @PortalID IS Null )
+		AND (UP.IsDeleted = 0 OR UP.IsDeleted Is NULL)
+		AND (R.RoleName = @Rolename)
+		AND (R.PortalId = @PortalID OR @PortalID IS Null )
+	--ORDER BY U.FirstName + ' ' + U.LastName
+	ORDER BY U.LastName + ' ' + U.FirstName
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Reservation_Insert]    Script Date: 12/02/2014 08:13:04 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*** [GIBS_Rentals_Reservation_Insert] ***/
+
+CREATE PROCEDURE [dbo].[GIBS_Rentals_Reservation_Insert]
+
+    @ModuleID int,
+    @PropertyID int,
+    @TenantID	int,
+    @DateStart datetime,
+    @DateEnd datetime,
+    @RentalAmount money,
+    @AgentID int,
+    @Status varchar(1),
+    @CreatedByUserID int
+
+AS
+BEGIN
+SET NOCOUNT ON;
+
+--Declare @BookingID int
+
+--	Set @BookingID = (Select BookingID 
+--	from GIBS_Rentals_Bookings 
+--	where DateStart = @DateBooked AND PropertyID = @PropertyID)
+
+INSERT INTO [dbo].[GIBS_Rentals_Reservations]
+           ([ModuleID]
+           ,[TenantID]
+           ,[PropertyID]
+           ,[DateStart]
+           ,[DateEnd]
+           ,[RentAmount]
+           ,[AgentID]
+           ,[CreatedByUserID]
+           ,[CreatedDate]
+           ,[UpdatedByUserID]
+           ,[UpdatedDate])
+     VALUES
+          (
+           @ModuleID
+           ,@TenantID
+           ,@PropertyID
+           ,@DateStart
+           ,@DateEnd
+           ,@RentalAmount
+           ,@AgentID
+           ,@CreatedByUserID
+           ,GetDate()
+           ,@CreatedByUserID
+           ,GetDate()
+           )
+
+Declare @ReservationID int
+
+Set @ReservationID = (select SCOPE_IDENTITY())
+
+UPDATE [GIBS_Rentals_Bookings]
+   SET 
+      
+      [Status] = @Status
+      ,[ReservationID] = @ReservationID
+   
+      ,[UpdatedByUserID] = @CreatedByUserID
+      ,[UpdatedDate] = GetDate()
+ WHERE  (PropertyID = @PropertyID) and (DateStart between @DateStart and DateAdd(day, -1, @DateEnd))
+
+END
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Update_Reservation_Payment]    Script Date: 12/02/2014 08:13:04 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[GIBS_Rentals_Update_Reservation_Payment]
+	-- Add the parameters for the stored procedure here
+	@ReservationID int,
+	@DepositAmt money,
+	@DepositPaidDate Date,
+	@BalancePaidDate Date,
+	@BalanceAmt money,
+	@Notes ntext,
+	@UpdatedByUserID int,
+	@Status varchar(1)
+	
+	
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+UPDATE [GIBS_Rentals_Reservations]
+   SET 
+   
+      [DepositAmt] = @DepositAmt
+      ,[DepositPaidDate] = @DepositPaidDate
+      ,[BalanceAmt] = @BalanceAmt
+      ,[BalancePaidDate] = @BalancePaidDate
+      ,[Notes] = @Notes
+
+      ,[UpdatedByUserID] = @UpdatedByUserID
+      ,[UpdatedDate] = GetDate()
+ WHERE ReservationID =  @ReservationID
+ 
+ 
+ UPDATE [GIBS_Rentals_Bookings]
+   SET 
+      
+      [Status] = @Status
+     
+   
+      ,[UpdatedByUserID] = @UpdatedByUserID
+      ,[UpdatedDate] = GetDate()
+ WHERE  ReservationID =  @ReservationID
+  
+END
+
+GO
+
+

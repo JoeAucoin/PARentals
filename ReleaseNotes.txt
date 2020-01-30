@@ -1,0 +1,23 @@
+﻿<h3>PARentals</h3>
+<p class="Contributor">
+	GIBS.com <br />
+	<a href="mailto:modules@GIBS.com">modules@GIBS.com</a><br />
+	<a href=http://www.GIBS.com>http://www.GIBS.com</a><br />
+</p>
+<hr/>
+<div class="License">
+	<h3>About This Release</h3>
+	<p class="Owner">
+		<b>Version x.x.x</b><br /><br />
+	</p>
+	<p>Description about version.</p>
+	
+	<h4>Bug Fixes</h4>
+	<ul>
+			<li>List</li>
+			<li>of</li>
+			<li>bug</li>
+			<li>fixes</li>
+	</ul>
+	
+</div>

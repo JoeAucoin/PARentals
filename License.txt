@@ -1,0 +1,57 @@
+﻿<div class="License">
+<h1>Global Internet Business Solutions (GIBS) Custom DNN Modules</h1>
+<h2>    END USER LICENSE AGREEMENT</h2>
+<p>    <span>Please review the following license agreement before installing or using this licensed GIBS Software Product and its related materials.</span></p>
+<h2>    DEFINITIONS</h2>
+<p>    <span>This GIBS End-User License Agreement (from now on: EULA) is a legal agreement between you (either as an individual user, corporation or single entity) and GIBS, for a product which includes software products, may include associated media, and online or electronic documentation.</span></p>
+<p>    <span>By exercising your rights to install this Software Product, you agree to be bound by the terms of this EULA, including the limitations and warranty disclaimers.</span></p>
+<h2>1. LICENSE</h2>
+<p>    <span>Licensee acknowledges that this is only a limited nonexclusive license. Licensor is and remains the owner of all titles, rights, and interests in this Software Product. Licensee may not sell, distribute, or package for sale this Software Product.</span></p>
+<p>    <span>Licensee will not make copies of this Software Product or allow copies of this Software Product to be made by others, unless authorized by this License Agreement.</span></p>
+<p>    <span>Licensee may make copies of this Software Product for backup purposes only.</span></p>
+<p>    <span>To qualify as a Licensee of this Software Product (includes skins, containers, documentation and associated files) you must have purchased a license to use this Software Product at Snowcovered (www.snowcovered.com).</span></p>
+<p>    <span>If you are not a qualified Licensee you are not allowed to use, modify, resell, distribute, allow download of, copy, keep, store, archive, backup, rent, loan, host, install, unpack, extract, unzip, repackage, transfer, decompile, claim ownership, authorize use of this Software Product in part or in full,  modified or unmodified and in any form.</span></p>
+<h2>2. LIMITED USAGE GRANTED</h2>
+<p><span>GIBS grants to a Licensee a personal, non-transferable, non-sublicenseable, non-assignable and non-exclusive right to use the copy of this Software Product provided with this EULA.</span></p>
+<p>    <span>You agree you will not copy this Software Product except as necessary to use it in accordance with the License terms outlined below. </span>
+</p>
+<p><span>You agree that you may not copy the written materials accompanying this Software Product. Modifying, translating, renting, copying, transferring or assigning all or part of this Software Product, or any rights granted hereunder, to any other persons and removing any proprietary notices, labels or marks from this Software Product is strictly prohibited.</span></p>
+<h3>a. STANDARD LICENSE</h3>
+<p><span>As a Licensee who has purchased the “Standard License” you are allowed to use this Software Product on a single website. You must purchase a License for  this Software Product again if you wish to use it on another website. You are also allowed to install this Software Product on any development installations for testing and development.</span></p>
+<h3>b. PROFESSIONAL LICENSE</h3>
+<p><span>As a Licensee who has purchased the “Professional License”, you are allowed to use this Software Product on any number of websites on a single DotNetNuke Installation. You must purchase a License for this Software Product again if you wish to use it on another DotNetNuke Installation. You are also allowed to install this Software Product on any development installations for testing and development.</span></p>
+<h3>c. ENTERPRISE LICENSE</h3>
+<p><span>As a Licensee who has purchased the “Enterprise License”, you are allowed to use this Software Product on any number of websites and any number of DotNetNuke Installations. You are also allowed to install this Software Product on any development installations for testing and development.</span></p>
+<h2>3. REDISTRIBUTION NOT ALLOWED</h2>
+<p><span>You may not resell (or otherwise allow download of) this Software Product in part or in full, in any form, modified or unmodified.</span></p>
+<h2>4. MODIFICATIONS</h2>
+<p><span>As a Licensee, you are allowed to make any necessary modification(s) to this Software Product to fit your purposes. Although rights to modification of this Software Product are granted by this EULA, you may not tamper with, alter, or use this Software Product in a way that disables, circumvents, or otherwise defeats its built-in licensing verification and enforcement capabilities. </span>
+</p>
+<p><span>The right to modification of this Software Product also does not include the right to remove or alter any trademark, logo, copyright or other proprietary notice, legend, symbol or label in it.</span></p>
+<h2>5. UNAUTHORIZED USE</h2>
+<p><span>As a Licensee you are only allowed to use this Software Product in accordance with the terms stated in this EULA, any use that is not outlined in this EULA is prohibited. Furthermore as a Licensee or non-Licensee, you may not create or distribute any add-ons, upgrades, updates or any software aimed at modifying, enhancing or removing part of this Software Product. </span>
+</p>
+<h2>6. COPYRIGHT</h2>
+<p><span>This Software Product is protected by copyright laws and international copyright treaties, as well as other intellectual property laws and treaties.</span></p>
+<p><span>You acknowledge that no title to the intellectual property in this Software Product is transferred to you. You further acknowledge that title and full ownership rights to this Software Product will remain the exclusive property of GIBS, and you will not acquire any rights to this Software Product, except as expressly set forth above.</span></p>
+<p><span>All copies of this Software Product will contain the same proprietary notices as contained in or on it. </span>
+</p>
+<h2>7. DISCLAIMER OF WARRANTY</h2>
+<p><span>This Software Product is provided “AS IS” without warranty of any kind.    </span>
+</p>
+<p><span>GIBS disclaims and makes no express or implied warranties and specifically disclaims the warranties of merchantability, fitness for a particular purpose and non-infringement of third-party rights. The entire risk as to the quality and performance of the Software is with you. GIBS do not warrant that the functions contained in this Software Product will meet your requirements or that the operation of the Software will be uninterrupted or error-free.</span></p>
+<p><span>As a Licensee shall assume responsibility for the selection of this Software and for the installation, use, and results obtained from the Software.</span></p>
+<p><span>By purchasing license to use and download the software, you agree to accept all liability regarding its use or misuse.</span></p>
+<h2>8. LIMITATION OF LIABILITY</h2>
+<p><span>GIBS entire liability and your exclusive remedy under this EULA shall not exceed the price paid for this Software Product, if any. </span>
+</p>
+<p><span>In no event shall GIBS be liable to you for any consequential, special, incidental or indirect damages of any kind arising out of the use or inability to use the software, or any claim by a third party. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with this Software Product or the use or other dealings in this Software Product.</span></p>
+<p><span>Without prejudice to any other rights, GIBS may terminate this EULA if you fail to comply with the terms and conditions of this EULA. In such event, you must destroy all copies of this Software Product and all of its component parts, source code, associated documentation, and related materials.</span></p>
+<h2>9. UPGRADES</h2>
+<p><span>Any Licensee to use any upgrades, supplements, add-on components, patches, and service packs to this Software Product subsequently provided by Licensor, whether purchased or not, is subject to the same terms and conditions as provided herein. Licensor reserves the right to supplement this agreement with additional terms along with any subsequent upgrades, supplements, add-on components, patches, and service packs to this Software Product.</span></p>
+<h2>10. REFUND POLICY</h2>
+<p><span>GIBS does not issue refunds. The decision to issue a refund is on the sole discretion of GIBS. By placing an order for any of our products, you indicate that you have read this refund policy and that you agree with and fully accept the terms of this refund policy.</span></p>
+<p><span>Any requests for a refund will be dealt with on a case-by-case basis and must be submitted within 15 days of placing the order. You are required to provide detailed reasons why you are requesting this refund.</span></p>
+<p><span>If you have any questions regarding this EULA, please email: support@GIBS.com</span></p>
+<p><span>Copyright (c) 2015 by GIBS</span></p>
+</div>

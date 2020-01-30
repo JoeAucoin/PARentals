@@ -1,0 +1,4 @@
+﻿/****** Object:  StoredProcedure [dbo].[GIBS_Rentals_Schedule_GetAvailability]    Script Date: 12/04/2014 05:16:13 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GIBS_Rentals_Schedule_GetAvailability]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[GIBS_Rentals_Schedule_GetAvailability]
+GO
