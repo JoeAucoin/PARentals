@@ -12,6 +12,7 @@ using DotNetNuke.Common.Utilities;
 using DotNetNuke.Services.Localization;
 using Ventrian.PropertyAgent;
 using DotNetNuke.Framework.JavaScriptLibraries;
+using DotNetNuke.Security.Roles;
 
 namespace GIBS.Modules.PARentals
 {
@@ -146,12 +147,8 @@ namespace GIBS.Modules.PARentals
             try
             {
 
-                ArrayList myRoles = new ArrayList();
-
                 DotNetNuke.Security.Roles.RoleController rc = new DotNetNuke.Security.Roles.RoleController();
-
-                myRoles = rc.GetPortalRoles(this.PortalId);
-
+                var myRoles = rc.GetRoles(this.PortalId);
 
 
                 ddlAgentRole.DataSource = myRoles;

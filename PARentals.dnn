@@ -1,5 +1,5 @@
 ﻿<dotnetnuke type="Package" version="5.0">
-  <packages><package name="GIBS.PARentals" type="Module" version="1.0.19">
+  <packages><package name="GIBS.PARentals" type="Module" version="1.0.20">
   <friendlyName>GIBS PARentals</friendlyName>
   <description>Rentals Module for Ventrian Property Agent</description>
   <iconFile />
@@ -118,7 +118,7 @@
       <assemblies>
         <basePath>bin</basePath>
         <assembly>
-          <name>PARentals.dll</name>
+          <name>GIBS.Modules.PARentals.dll</name>
         </assembly>
       </assemblies>
     </component>
